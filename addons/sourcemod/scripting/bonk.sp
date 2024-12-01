@@ -48,7 +48,12 @@ public void OnClientPutInServer(int client) {
 }
 
 public Action OnClientTakeDamage(int victim, int& attacker, int& inflictor, float& damage, int& damagetype, int& weapon, float damageForce[3], float damagePosition[3]) {
-    int wepIndex = (IsValidEntity(weapon) && weapon > MaxClients ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
+    //int wepIndex = (IsValidEntity(weapon) && weapon > MaxClients ? GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex") : -1);
+    int wepIndex = -1;
+    if (IsValidEntity(weapon) && weapon > MaxClients && HasEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex")) {
+        wepIndex = GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex");
+    }
+
     // Not the weapon ? No need to continue
     if (wepIndex != 44) {
         return Plugin_Continue;
